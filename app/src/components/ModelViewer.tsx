@@ -33,7 +33,7 @@ export function ModelViewer({ model }: Props) {
     <div className="viewer">
       <div className="viewer-stage">
         <Canvas
-          shadows
+          shadows="percentage"
           dpr={[1, 2]}
           camera={{ position: [3, 1.6, 3.6], fov: 45 }}
           gl={{ antialias: true, preserveDrawingBuffer: true }}
