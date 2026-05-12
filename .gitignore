@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.DS_Store
+.env.local
+.env.*.local
+*.log
+.idea/
+.vscode/
+
+# 工作目录中的原始素材（已压缩并复制到 app/public/ 下，无需再提交）
+/DNA.draco.glb
+/DNA.png
+/动物细胞-高清.draco.glb
+/动物细胞正面.png
+/植物细胞.draco.glb
+/植物细胞正面.png
+/白细胞-高清.draco.glb
+/白细胞正面.png
+/神经元.draco.glb
+/神经元正面.png

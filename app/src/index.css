@@ -1,0 +1,106 @@
+:root {
+  /* 主色调：温润的米白 + 自然系点缀 */
+  --bg-cream: #f6efe2;
+  --bg-paper: #faf5ea;
+  --bg-card: rgba(255, 252, 244, 0.92);
+  --bg-soft: rgba(255, 252, 244, 0.6);
+  --bg-deep: #efe7d6;
+
+  --ink-900: #2c2a2e;
+  --ink-700: #4a4753;
+  --ink-500: #6f6b78;
+  --ink-300: #aaa5b3;
+
+  --accent: #7fb069;
+  --accent-deep: #4f7a47;
+  --plum: #6f3aa3;
+  --rose: #c46b7a;
+  --amber: #c98a3a;
+  --sky: #5b8db8;
+
+  --border-soft: rgba(70, 60, 80, 0.08);
+  --border-strong: rgba(70, 60, 80, 0.18);
+  --shadow-soft: 0 12px 32px -16px rgba(70, 60, 80, 0.18),
+    0 2px 6px -2px rgba(70, 60, 80, 0.08);
+  --shadow-card: 0 22px 60px -30px rgba(70, 60, 80, 0.22),
+    0 4px 14px -4px rgba(70, 60, 80, 0.08);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  --font-sans: 'Noto Sans SC', system-ui, 'Helvetica Neue', 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
+  --font-serif: 'Noto Serif SC', 'STSong', 'Songti SC', Georgia, serif;
+  --font-hand: 'Caveat', 'Noto Serif SC', cursive;
+
+  color-scheme: light;
+  color: var(--ink-700);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(127, 176, 105, 0.16), transparent 60%),
+    radial-gradient(900px 600px at -10% 100%, rgba(196, 107, 122, 0.14), transparent 60%),
+    radial-gradient(900px 700px at 50% 50%, rgba(255, 248, 230, 0.6), transparent 70%),
+    linear-gradient(180deg, var(--bg-cream) 0%, var(--bg-paper) 100%);
+  color: var(--ink-700);
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--ink-900);
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(70, 60, 80, 0.18);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
