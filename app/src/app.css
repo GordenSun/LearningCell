@@ -11,6 +11,13 @@
   overflow: hidden;
 }
 
+/* 支持 dvh 的浏览器使用动态视口高度，规避手机 Safari 地址栏遮挡 */
+@supports (height: 100dvh) {
+  .app-shell {
+    height: 100dvh;
+  }
+}
+
 body {
   overflow: hidden;
 }
@@ -101,12 +108,6 @@ body {
 @media (max-width: 1280px) {
   .layout {
     grid-template-columns: 220px minmax(0, 1fr) 280px;
-  }
-}
-
-@media (max-width: 1040px) {
-  .layout {
-    grid-template-columns: 1fr;
   }
 }
 
@@ -661,22 +662,235 @@ body {
   color: var(--ink-500);
 }
 
-/* ========== Responsive niceties ========== */
-@media (max-width: 1040px) {
+/* ========== Responsive ========== */
+
+/* 平板：中等屏幕下保持三列但侧栏更窄 */
+@media (max-width: 1040px) and (min-width: 641px) {
   .topbar {
     flex-direction: column;
     align-items: flex-start;
+    gap: 8px;
   }
 
+  .layout {
+    grid-template-columns: 180px minmax(0, 1fr) 240px;
+  }
+}
+
+/* ===== 手机端（<= 640px） =====
+   关键诉求：扩大 3D 模型区，缩小顶部标题与下方讲解；整体仍然单屏 */
+@media (max-width: 640px) {
+  body {
+    /* 允许极矮屏（如横屏）时回退到滚动，避免内容被压扁不可读 */
+    overflow: auto;
+  }
+
+  .app-shell {
+    padding: 8px 10px 8px;
+    gap: 8px;
+  }
+
+  /* Header 极简：单行小标题 + 副标题/版本号隐藏 */
+  .topbar {
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0;
+  }
+  .brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+  }
+  .brand-mark svg {
+    width: 26px;
+    height: 26px;
+  }
+  .brand-title {
+    font-size: 17px;
+    letter-spacing: 0.5px;
+  }
+  .brand-tagline {
+    display: none;
+  }
+  .topbar-meta {
+    display: none;
+  }
+
+  /* Layout：单列三段 = 横向细胞选择 / 3D 主舞台 / 讲解区 */
+  .layout {
+    grid-template-columns: 1fr;
+    /* 顶部 chip auto，舞台占大头，底部讲解卡片可滚 */
+    grid-template-rows: auto minmax(0, 1.45fr) minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  /* 左侧栏 → 顶部横向细胞选择条 */
+  .sidebar {
+    gap: 0;
+  }
+  .sidebar-section {
+    padding: 6px 8px;
+    border-radius: 14px;
+    flex: 0 0 auto;
+  }
+  .sidebar-header {
+    display: none;
+  }
+  .sidebar-section .cell-list {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 6px;
+    padding: 2px 2px 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sidebar-section .cell-list::-webkit-scrollbar {
+    height: 0;
+  }
+  .cell-item {
+    flex: 0 0 auto;
+    grid-template-columns: 36px auto;
+    gap: 8px;
+    padding: 5px 10px 5px 5px;
+    border-radius: 12px;
+  }
+  .cell-thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+  .cell-thumb .badge {
+    display: none;
+  }
+  .cell-name {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .cell-sub,
+  .cell-status {
+    display: none;
+  }
+
+  /* Stage 3D 主舞台 */
   .stage {
-    padding: 16px;
+    border-radius: 18px;
+    min-height: 0;
+  }
+  .viewer {
+    height: 100%;
   }
 
-  .stage-title {
-    font-size: 26px;
+  /* 浮层标题缩小 */
+  .overlay-heading {
+    top: 12px;
+    left: 14px;
+    max-width: 70%;
+  }
+  .overlay-title {
+    font-size: 22px;
+    letter-spacing: 0.5px;
+  }
+  .overlay-sub {
+    font-size: 13px;
+    margin-top: 2px;
   }
 
+  /* 操作提示进一步弱化 */
+  .overlay-tip {
+    font-size: 9px;
+    letter-spacing: 0.6px;
+    left: 14px;
+    bottom: 14px;
+  }
+
+  /* 浮层工具栏紧凑 */
+  .overlay-toolbar {
+    bottom: 10px;
+    padding: 4px;
+    gap: 4px;
+    border-radius: 12px;
+  }
+  .tool-btn {
+    padding: 6px 10px;
+    font-size: 11.5px;
+    gap: 4px;
+  }
+  .tool-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* 讲解区紧凑（独立滚动） */
   .info-panel {
-    max-height: none;
+    gap: 8px;
+    padding-right: 4px;
+  }
+  .info-card {
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+  .card-eyebrow {
+    font-size: 9.5px;
+    letter-spacing: 2.5px;
+    margin-bottom: 6px;
+  }
+  .hero-card h2 {
+    font-size: 17px;
+  }
+  .info-tagline {
+    font-size: 15px;
+  }
+  .info-grid {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 8px;
+    gap: 8px 12px;
+  }
+  .info-grid dt {
+    font-size: 10px;
+  }
+  .info-grid dd {
+    font-size: 12px;
+  }
+  .info-description {
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+  .feature-name {
+    font-size: 12px;
+  }
+  .feature-detail {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .fun-text {
+    font-size: 15px;
+  }
+  .occur-card p {
+    font-size: 12px;
+  }
+  .habitat {
+    font-size: 11px;
+  }
+
+  /* footer 在手机上完全隐藏，节省空间 */
+  .footer {
+    display: none;
+  }
+
+  /* 进度条遮罩在小屏下也要更紧凑 */
+  .progress-card {
+    width: min(280px, 90%);
+    padding: 20px 22px 18px;
+  }
+}
+
+/* 超窄屏（< 380px）再压一层 */
+@media (max-width: 380px) {
+  .overlay-title {
+    font-size: 19px;
+  }
+  .brand-title {
+    font-size: 15px;
   }
 }
