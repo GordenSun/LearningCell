@@ -25,74 +25,74 @@ export function ModelViewer({ model }: Props) {
     const controls = controlsRef.current;
     if (!controls) return;
     controls.target.set(0, 0, 0);
-    controls.object.position.set(3, 1.6, 3.6);
+    controls.object.position.set(0, 0, 4.4);
     controls.update();
   };
 
   return (
     <div className="viewer">
-      <div className="viewer-stage">
-        <Canvas
-          shadows="percentage"
-          dpr={[1, 2]}
-          camera={{ position: [3, 1.6, 3.6], fov: 45 }}
-          gl={{ antialias: true, preserveDrawingBuffer: true }}
-        >
-          <ambientLight intensity={0.55} />
-          <directionalLight
-            position={[5, 6, 4]}
-            intensity={1.1}
-            castShadow
-            shadow-mapSize-width={1024}
-            shadow-mapSize-height={1024}
-          />
-          <directionalLight position={[-3, 2, -4]} intensity={0.35} />
+      <Canvas
+        shadows="percentage"
+        dpr={[1, 2]}
+        camera={{ position: [0, 0, 4.4], fov: 45 }}
+        gl={{ antialias: true, preserveDrawingBuffer: true }}
+      >
+        <ambientLight intensity={0.55} />
+        <directionalLight
+          position={[5, 6, 4]}
+          intensity={1.1}
+          castShadow
+          shadow-mapSize-width={1024}
+          shadow-mapSize-height={1024}
+        />
+        <directionalLight position={[-3, 2, -4]} intensity={0.35} />
 
-          <Suspense fallback={null}>
-            <Environment preset="studio" environmentIntensity={0.55} />
-          </Suspense>
+        <Suspense fallback={null}>
+          <Environment preset="studio" environmentIntensity={0.55} />
+        </Suspense>
 
-          {isReady && entry?.gltf && (
-            <ModelScene gltf={entry.gltf} autoRotate={false} />
-          )}
-
-          <ContactShadows
-            position={[0, -1.35, 0]}
-            opacity={0.32}
-            scale={6}
-            blur={2.4}
-            far={3.2}
-          />
-
-          <OrbitControls
-            ref={controlsRef}
-            makeDefault
-            enableDamping
-            dampingFactor={0.08}
-            minDistance={1.5}
-            maxDistance={9}
-            autoRotate={autoRotate}
-            autoRotateSpeed={0.7}
-          />
-        </Canvas>
-
-        {!isReady && (
-          <ProgressOverlay
-            progress={progress}
-            status={status}
-            modelName={model.name}
-            error={entry?.error}
+        {isReady && entry?.gltf && (
+          <ModelScene
+            gltf={entry.gltf}
+            autoRotate={false}
+            initialRotationY={model.defaultRotationY}
+            displayScale={model.displayScale}
           />
         )}
 
-        <div className="viewer-hint">
-          <span>拖拽旋转</span>
-          <span>滚轮缩放</span>
-          <span>右键平移</span>
-        </div>
+        <ContactShadows
+          position={[0, -1.35, 0]}
+          opacity={0.32}
+          scale={6}
+          blur={2.4}
+          far={3.2}
+        />
+
+        <OrbitControls
+          ref={controlsRef}
+          makeDefault
+          enableDamping
+          dampingFactor={0.08}
+          minDistance={1.5}
+          maxDistance={9}
+          autoRotate={autoRotate}
+          autoRotateSpeed={0.7}
+        />
+      </Canvas>
+
+      {/* 浮层标题（左上） */}
+      <div className="overlay-heading">
+        <h2 className="overlay-title">{model.name}</h2>
+        <p className="overlay-sub">{model.subtitle}</p>
       </div>
 
-      <div className="viewer-toolbar">
+      {/* 浮层提示（弱化为左下角的灰色细字） */}
+      <p className="overlay-tip" aria-hidden="true">
+        拖拽旋转 · 滚轮缩放 · 右键平移
+      </p>
+
+      {/* 浮层工具栏（底部居中） */}
+      <div className="overlay-toolbar">
         <button
           type="button"
           className={`tool-btn${autoRotate ? ' active' : ''}`}
@@ -101,15 +101,20 @@ export function ModelViewer({ model }: Props) {
           <RotateIcon />
           {autoRotate ? '暂停旋转' : '自动旋转'}
         </button>
-        <button
-          type="button"
-          className="tool-btn"
-          onClick={handleReset}
-        >
+        <button type="button" className="tool-btn" onClick={handleReset}>
           <ResetIcon />
           复位视角
         </button>
       </div>
+
+      {!isReady && (
+        <ProgressOverlay
+          progress={progress}
+          status={status}
+          modelName={model.name}
+          error={entry?.error}
+        />
+      )}
     </div>
   );
 }

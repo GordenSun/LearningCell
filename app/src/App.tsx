@@ -101,18 +101,10 @@ function App() {
       <main className="layout">
         <Sidebar models={MODELS} activeId={activeId} onSelect={setActiveId} />
 
-        <section className="stage">
-          <div className="stage-header">
-            <div>
-              <h2 className="stage-title">{activeModel.name}</h2>
-              <p className="stage-sub">{activeModel.subtitle}</p>
-            </div>
-            <div
-              className="stage-accent"
-              style={{ background: activeModel.accent }}
-              aria-hidden="true"
-            />
-          </div>
+        <section
+          className="stage"
+          style={{ '--accent': activeModel.accent } as React.CSSProperties}
+        >
           <ModelViewer key={activeModel.id} model={activeModel} />
         </section>
 
@@ -121,9 +113,6 @@ function App() {
 
       <footer className="footer">
         <span>© {new Date().getFullYear()} 细胞结构工坊 · 用于课堂教学与科普展示</span>
-        <span className="footer-tip">
-          模型已使用 Draco 压缩 · 首个模型加载后其余模型在后台静默下载
-        </span>
       </footer>
     </div>
   );

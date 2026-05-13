@@ -27,30 +27,6 @@ export function Sidebar({ models, activeId, onSelect }: Props) {
         </ul>
       </div>
 
-      <div className="sidebar-section">
-        <header className="sidebar-header">
-          <span className="dot" />
-          课 程 导 览
-        </header>
-        <ul className="lesson-list">
-          <li>
-            <strong>第一节</strong>
-            <span>认识细胞——生命的基本单位</span>
-          </li>
-          <li>
-            <strong>第二节</strong>
-            <span>真核 vs. 原核</span>
-          </li>
-          <li>
-            <strong>第三节</strong>
-            <span>分工合作的细胞器</span>
-          </li>
-          <li>
-            <strong>第四节</strong>
-            <span>从分子到组织</span>
-          </li>
-        </ul>
-      </div>
     </aside>
   );
 }

@@ -1,52 +1,57 @@
 import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { cloneScene } from '../lib/modelLoader';
 
 interface Props {
   gltf: GLTF;
   autoRotate: boolean;
+  /** 初始绕 Y 轴的旋转角度（弧度），默认 0（完全正面） */
+  initialRotationY?: number;
+  /** 在标准化基础上的额外缩放倍率，用于让不同模型默认大小不同 */
+  displayScale?: number;
 }
 
 /**
  * 将 GLTF.scene 居中、缩放到合适大小后渲染。
- * 通过 useFrame 实现可控的自动旋转（OrbitControls 也有 autoRotate，
- * 这里再次实现一层是为了便于按需开启/暂停）。
+ * 通过 useFrame 实现可控的自动旋转。
  */
-export function ModelScene({ gltf, autoRotate }: Props) {
+export function ModelScene({
+  gltf,
+  autoRotate,
+  initialRotationY = 0,
+  displayScale = 1,
+}: Props) {
   const groupRef = useRef<THREE.Group>(null);
-  const { camera } = useThree();
 
   const { centeredScene, scale } = useMemo(() => {
     const cloned = cloneScene(gltf);
 
-    // 先确定包围盒，将内容平移到原点
     const box = new THREE.Box3().setFromObject(cloned);
     const size = new THREE.Vector3();
     box.getSize(size);
     const center = new THREE.Vector3();
     box.getCenter(center);
 
-    // 将场景的位置反向平移，使内容居中
     cloned.position.x -= center.x;
     cloned.position.y -= center.y;
     cloned.position.z -= center.z;
 
     const maxDim = Math.max(size.x, size.y, size.z) || 1;
-    const targetSize = 2.4;
+    const targetSize = 2.0;
     return {
       centeredScene: cloned,
-      scale: targetSize / maxDim,
+      scale: (targetSize / maxDim) * displayScale,
     };
-  }, [gltf]);
+  }, [gltf, displayScale]);
 
+  // 切换模型时重置旋转到默认角度
   useEffect(() => {
-    if (!(camera instanceof THREE.PerspectiveCamera)) return;
-    camera.position.set(3.0, 1.6, 3.6);
-    camera.lookAt(0, 0, 0);
-    camera.updateProjectionMatrix();
-  }, [camera, gltf]);
+    if (groupRef.current) {
+      groupRef.current.rotation.set(0, initialRotationY, 0);
+    }
+  }, [initialRotationY, gltf]);
 
   useFrame((_, delta) => {
     if (autoRotate && groupRef.current) {
@@ -55,7 +60,7 @@ export function ModelScene({ gltf, autoRotate }: Props) {
   });
 
   return (
-    <group ref={groupRef} scale={scale}>
+    <group ref={groupRef} scale={scale} rotation={[0, initialRotationY, 0]}>
       <primitive object={centeredScene} />
     </group>
   );
