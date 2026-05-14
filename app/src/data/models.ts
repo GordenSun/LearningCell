@@ -179,6 +179,89 @@ export const MODELS: CellModel[] = [
     defaultRotationY: 0,
     displayScale: 1.2,
   },
+  {
+    id: "mitochondrion",
+    name: "线粒体",
+    subtitle: "细胞器 · 细胞的动力车间",
+    category: "细胞器",
+    accent: "#d97b5a",
+    description:
+      "线粒体是真核细胞中的「动力车间」，几乎所有需要能量的生命活动都依赖它。它通过有氧呼吸，把葡萄糖等有机物里储存的化学能逐步释放，转化为细胞通用的能量货币 ATP，同时生成二氧化碳和水。",
+    size: "长 1 – 10 微米，宽 0.5 – 1 微米",
+    location: "几乎所有真核细胞的细胞质（哺乳动物成熟红细胞除外）",
+    visibleInLM: "是（经健那绿染色后可见）",
+    features: [
+      { name: "外膜", detail: "光滑、通透性高，小分子可以自由进出" },
+      {
+        name: "内膜与嵴",
+        detail:
+          "内膜向内折叠形成「嵴」，大幅扩大反应表面积；嵴上排列着与有氧呼吸有关的酶，是合成 ATP 的主要场所",
+      },
+      { name: "基质", detail: "内膜包围的液态区域，含有大量参与有氧呼吸的酶" },
+      {
+        name: "线粒体 DNA",
+        detail:
+          "线粒体含有少量环状 DNA 与核糖体，能半自主地合成部分自身蛋白质；后代的线粒体几乎全部来自卵细胞，因此呈现「母系遗传」",
+      },
+    ],
+    funFact:
+      "线粒体被认为起源于一种被远古真核细胞「吞下」却没被消化的细菌——这就是著名的「内共生学说」，也正因如此，线粒体至今还保留着自己的 DNA。",
+    whereItOccurs: {
+      text: "从酵母到鲸鱼，几乎所有真核细胞都依赖线粒体供能；越是耗能旺盛的细胞（如心肌、骨骼肌、肝细胞），线粒体就越密集。",
+      habitat: "动物 · 植物 · 真菌 · 原生生物",
+    },
+    modelUrl: asset("models/mitochondrion.glb"),
+    imageUrl: asset("images/mitochondrion.jpg"),
+    fileSize: 2101280,
+    defaultRotationY: -Math.PI / 4,
+    displayScale: 1.4,
+  },
+  {
+    id: "chloroplast",
+    name: "叶绿体",
+    subtitle: "细胞器 · 光合作用的车间",
+    category: "细胞器",
+    accent: "#4daf7c",
+    description:
+      "叶绿体是绿色植物和部分藻类特有的细胞器，被誉为细胞里的「绿色工厂」。它能够捕获太阳光能，把空气中的二氧化碳和水合成为葡萄糖等有机物，同时释放氧气——这正是几乎所有生态系统中物质循环和能量流动的源头。",
+    size: "长 5 – 10 微米，宽 2 – 4 微米",
+    location: "绿色植物的叶肉细胞、幼茎及部分藻类细胞的细胞质",
+    visibleInLM: "是（呈绿色椭球形，可直接观察）",
+    features: [
+      { name: "外膜与内膜", detail: "双层膜结构，把叶绿体与细胞质基质分隔开" },
+      {
+        name: "类囊体与基粒",
+        detail:
+          "内膜内部存在许多扁平囊状的「类囊体」，多个类囊体堆叠形成「基粒」；基粒之间由基质类囊体相连，极大地扩展了膜面积",
+      },
+      {
+        name: "光合色素",
+        detail:
+          "类囊体薄膜上分布着叶绿素 a、叶绿素 b、胡萝卜素和叶黄素，负责吸收并传递光能；这也是叶片呈现绿色的原因",
+      },
+      {
+        name: "基质",
+        detail:
+          "内膜与类囊体之间的液态区域，含有暗反应（碳反应）所需的酶，是 CO₂ 被还原为有机物的场所",
+      },
+      {
+        name: "叶绿体 DNA",
+        detail:
+          "叶绿体含有少量环状 DNA 与核糖体，能半自主地合成部分自身蛋白质；它和线粒体一样表现为「母系遗传」",
+      },
+    ],
+    funFact:
+      "光合作用分为「光反应」和「暗反应」两个阶段：光反应在类囊体薄膜上进行，把光能转化为 ATP 和 NADPH，同时把水分解释放出 O₂；暗反应在基质中进行，利用光反应提供的能量把 CO₂ 还原为糖类——这是地球上几乎一切生命所需能量的最初来源。",
+    whereItOccurs: {
+      text: "凡是能进行光合作用的真核生物，体内都有叶绿体；从一片叶子到广袤的海洋藻类，它们共同维持着地球大气中的氧气与碳循环。",
+      habitat: "陆生植物 · 水生藻类 · 苔藓与蕨类 · 部分原生生物",
+    },
+    modelUrl: asset("models/chloroplast.glb"),
+    imageUrl: asset("images/chloroplast.jpg"),
+    fileSize: 2212964,
+    defaultRotationY: -Math.PI / 4,
+    displayScale: 1.4,
+  },
 ];
 
 export const DEFAULT_MODEL_ID = MODELS[0].id;
